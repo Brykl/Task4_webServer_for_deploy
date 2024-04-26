@@ -40,7 +40,7 @@ export default function SignUp() {
 if(!data.get('email').includes('@')) {
     setErrorMessage("email is uncorrect");
 } else {
-    axios.post('http://localhost:3001/register', {
+    axios.post('https://task4-web-server-for-deploy-server.vercel.app/register', {
             email: data.get('email'),
             login: data.get('login'),
             password: data.get('password')
