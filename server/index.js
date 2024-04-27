@@ -4,7 +4,7 @@ const cors = require('cors');
 const EmployeeModel = require('./models/employee')
 
 const corsOptions = {
-    origin: 'https://task4-web-server-for-deploy-client.vercel.app',
+    origin: '*',
   };
 
 const app = express();
