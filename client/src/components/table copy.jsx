@@ -6,7 +6,7 @@ function EmployeeTable() {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/employees')
+    axios.get('task4-web-app-server.vercel.app/employees')
       .then(response => {
         setEmployees(response.data);
       })

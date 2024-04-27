@@ -28,7 +28,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post('https://task4-web-server-for-deploy-server.vercel.app/login', {email: data.get('email'),
+    axios.post('task4-web-app-server.vercel.app/login', {email: data.get('email'),
     password: data.get('password'),
     lastLogin: getCurrentTime(currentDate)})
     .then(result => {
