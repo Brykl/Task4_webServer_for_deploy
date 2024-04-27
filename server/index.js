@@ -3,10 +3,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const EmployeeModel = require('./models/employee')
 
+const corsOptions = {
+    origin: 'https://task4-web-server-for-deploy-client.vercel.app',
+  };
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/');
 
