@@ -9,6 +9,10 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+app.get('/', (req, res) => {
+    res.send("Hello World");
+})
+
 
 app.get('/employees', async (req, res) => {
     try {
@@ -22,6 +26,7 @@ app.get('/employees', async (req, res) => {
 
 
   app.post('/login', (req, res) => {
+    console.log("this is login");
     const { email, password, lastLogin } = req.body;
     EmployeeModel.findOneAndUpdate(
         { email: email },
@@ -48,7 +53,7 @@ app.get('/employees', async (req, res) => {
 
 
 app.post('/register', (req, res) => {
-    const { email, login, password } = req.body;
+    const { email, login} = req.body;
 
     // Проверяем, существует ли пользователь с таким email
     EmployeeModel.findOne({ email: email })
