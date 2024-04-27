@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/employees', async (req, res) => {
+app.post('/employees', async (req, res) => {
     try {
       const employees = await EmployeeModel.find(); // Получаем всех сотрудников из коллекции
       res.json(employees); // Отправляем данные обратно на клиентскую сторону
