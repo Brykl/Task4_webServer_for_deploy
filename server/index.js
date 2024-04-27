@@ -8,13 +8,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('');
-app.get('/', (req, res) => {
-    res.send("Hello World");
-})
+mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/');
 
-
-app.post('/employees', async (req, res) => {
+app.get('/employees', async (req, res) => {
     try {
       const employees = await EmployeeModel.find(); // Получаем всех сотрудников из коллекции
       res.json(employees); // Отправляем данные обратно на клиентскую сторону
@@ -26,7 +22,6 @@ app.post('/employees', async (req, res) => {
 
 
   app.post('/login', (req, res) => {
-    console.log("this is login");
     const { email, password, lastLogin } = req.body;
     EmployeeModel.findOneAndUpdate(
         { email: email },
@@ -53,7 +48,7 @@ app.post('/employees', async (req, res) => {
 
 
 app.post('/register', (req, res) => {
-    const { email, login} = req.body;
+    const { email, login } = req.body;
 
     // Проверяем, существует ли пользователь с таким email
     EmployeeModel.findOne({ email: email })

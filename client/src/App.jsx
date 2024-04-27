@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path='/register' element={<SignUp />}></Route>
-        <Route path='/login' element={<SignIn/>}></Route>
+        <Route path='/' element={<SignIn/>}></Route>
         <Route path="/main/:userName" element={<DenseAppBar/>}></Route>
       </Routes>
       </BrowserRouter>
