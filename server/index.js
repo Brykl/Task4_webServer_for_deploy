@@ -10,7 +10,7 @@ app.use(cors());
 
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/');
 
-app.get('/employees', async (req, res) => {
+app.post('/employees', async (req, res) => {
     try {
       const employees = await EmployeeModel.find(); // Получаем всех сотрудников из коллекции
       res.json(employees); // Отправляем данные обратно на клиентскую сторону
@@ -19,6 +19,10 @@ app.get('/employees', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });
+
+  app.get('/', (req, res) => {
+    res.send("Hello World");
+})
 
 
   app.post('/login', (req, res) => {

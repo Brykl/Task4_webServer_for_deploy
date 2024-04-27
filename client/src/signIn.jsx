@@ -20,7 +20,6 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   let currentDate = new Date();
-  const [userName, setUserName] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
 
 
