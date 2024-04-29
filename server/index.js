@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const EmployeeModel = require('./models/employee');
-
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 // Middleware для обработки CORS
@@ -89,8 +89,8 @@ app.post('/register', (req, res) => {
 });
 
 // Запуск сервера на порту 3001
-app.listen(3001, () => {
-    console.log('server is running on 3001');
+app.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`);
 });
 
 
