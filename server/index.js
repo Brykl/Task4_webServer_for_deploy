@@ -41,9 +41,9 @@ app.post('/login', (req, res) => {
     .then(updatedUser => {
         if (updatedUser) {
             if (updatedUser.password === password && updatedUser.userStaus === 'Availble') {
-                res.json({ success: true, user: updatedUser});
+                res.status(200).json({ success: true, user: updatedUser});
             } else {
-                res.json({ success: false, message: 'Incorrect password' });
+                res.status(400).json({ success: false, message: 'Incorrect password' });
             }
         } else {
             res.status(400).json({ success: false, message: 'invalid password or email address' });
