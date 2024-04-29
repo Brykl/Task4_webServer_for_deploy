@@ -33,26 +33,7 @@ app.get('/', (req, res) => {
 // Роут для входа пользователя
 app.post('/login', (req, res) => {
     const { email, password, lastLogin } = req.body;
-    EmployeeModel.findOneAndUpdate(
-        { email: email },
-        { $set: { dateJoined: lastLogin } }, // Обновляем поле dateJoined с последним временем входа
-        { new: true } // Устанавливаем new: true, чтобы получить обновленный документ
-    )
-    .then(updatedUser => {
-        if (updatedUser) {
-            if (updatedUser.password === password && updatedUser.userStaus === 'Availble') {
-                res.json({ success: true, user: updatedUser});
-            } else {
-                res.json({ success: false, message: 'Incorrect password' });
-            }
-        } else {
-            res.status(400).json({ success: false, message: 'invalid password or email address' });
-        }
-    })
-    .catch(error => {
-        console.error('Error updating user:', error);
-        res.status(500).json({ success: false, message: "Server error" });
-    });
+    res.status(200).json({email, password, lastLogin})
 });
 
 // Роут для регистрации пользователя
