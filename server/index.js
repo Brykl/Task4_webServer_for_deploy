@@ -1,43 +1,50 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const EmployeeModel = require('./models/employee')
-
-// const allowCors = fn => async (req, res) => {
-//     res.setHeader('Access-Control-Allow-Credentials', true)
-//     res.setHeader('Access-Control-Allow-Origin', '*')
-//     // another common pattern
-//     // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-//     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-//     res.setHeader(
-//       'Access-Control-Allow-Headers',
-//       'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-//     )
-// }
+const EmployeeModel = require('./models/employee');
 
 const app = express();
 
-app.use(cors());
-// app.use(cors(corsOptions));
+// Middleware для обработки CORS
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
+    if (req.method === 'OPTIONS') {
+      res.status(200).end();
+      return;
+    }
+    next();
+});
 
+// Подключение к базе данных MongoDB
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
-app.post('/employees', async (req, res, next) => {
+// Middleware для обработки JSON
+app.use(express.json());
+
+// Роут для получения всех сотрудников
+app.post('/employees', async (req, res) => {
     try {
-      const employees = await EmployeeModel.find(); // Получаем всех сотрудников из коллекции
-      res.json(employees); // Отправляем данные обратно на клиентскую сторону
+      const employees = await EmployeeModel.find(); 
+      res.json(employees); 
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error' });
     }
-  });
+});
 
-  app.get('/', (req, resm, next) => {
+// Роут для проверки соединения
+app.get('/', (req, res) => {
     res.send("Hello World");
-})
+});
 
-
-  app.post('/login', (req, res, next) => {
+// Роут для входа пользователя
+app.post('/login', (req, res) => {
     const { email, password, lastLogin } = req.body;
     EmployeeModel.findOneAndUpdate(
         { email: email },
@@ -53,7 +60,6 @@ app.post('/employees', async (req, res, next) => {
             }
         } else {
             res.status(400).json({ success: false, message: 'invalid password or email address' });
-            // res.status(400).json({ success: false, message: "No record exists" });
         }
     })
     .catch(error => {
@@ -62,8 +68,8 @@ app.post('/employees', async (req, res, next) => {
     });
 });
 
-
-app.post('/register, next', (req, res) => {
+// Роут для регистрации пользователя
+app.post('/register', (req, res) => {
     const { email, login } = req.body;
 
     // Проверяем, существует ли пользователь с таким email
@@ -93,13 +99,9 @@ app.post('/register, next', (req, res) => {
         console.error("Ошибка при поиске пользователя по email:", err);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     });
-
-
-        
 });
 
-
-
+// Запуск сервера на порту 3001
 app.listen(3001, () => {
     console.log('server is running on 3001');
 });
