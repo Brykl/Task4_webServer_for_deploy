@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://task4-web-server-for-deploy-server.vercel.app',
+        target: 'https://task4-web-server-for-deploy-server.vercel.app/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
