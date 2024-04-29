@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 
 // Подключение к базе данных MongoDB
-// mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb");
+mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb");
 
 // Middleware для обработки JSON
 app.use(express.json());
@@ -39,19 +39,8 @@ app.post('/login', (req, res) => {
 // Роут для регистрации пользователя
 app.post('/register', (req, res) => {
     const { email, login, password } = req.body;
-    EmployeeModel.findOne({email: email})
-    .then(user =>{
-        if(!user)
-        {
-            res.status(200).json({ success: true, message: 'User created successfully' });
+
             EmployeeModel.create(req.body);
-        }
-       else {
-        res.status(400).json({message: "there is email"})
-       }
-    })
-
-
 });
 
 // Запуск сервера на порту 3001
