@@ -9,8 +9,7 @@ const app = express();
 app.use(cors());
 
 // Подключение к базе данных MongoDB
-mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb");
-
+mongoose.connect("mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 // Middleware для обработки JSON
 app.use(express.json());
 
