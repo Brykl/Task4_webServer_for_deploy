@@ -1,24 +1,30 @@
-const allowCors = fn => async (req, res) => {
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    // another common pattern
-    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
-    if (req.method === 'OPTIONS') {
-      res.status(200).end()
-      return
-    }
-    return await fn(req, res)
-  }
-  
-  const handler = (req, res) => {
-    const d = new Date()
-    res.end(d.toString())
-  }
-  
-  module.exports = allowCors(handler)
-  
+// включаем `CORS` для всех запросов
+const express = require('express')
+const cors = require('cors')
+
+const app = express()
+app.use(cors())
+
+app.get('/users/:id', (_, res) => {
+  res.json({ msg: 'CORS включен для всех запросов!' })
+})
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`CORS-сервер запущен на порту ${PORT}`)
+})
+
+// включаем `CORS` для одного маршрута
+app.get('/users/:id', cors(), (_, res) => {
+  res.json({ msg: 'CORS включен только для этого маршрута!' })
+})
+
+// настраиваем `CORS`
+const corsOptions = {
+  origin: 'https://example.com',
+  optionSuccessStatus: 200, // для старых браузеров и SmartTV
+}
+
+app.get('/users/:id', cors(corsOptions), (_, res) => {
+  res.json({ msg: 'CORS включен только для example.com' })
+})
