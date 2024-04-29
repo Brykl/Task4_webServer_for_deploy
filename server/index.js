@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 
 // Подключение к базе данных MongoDB
-mongoose.connect(process.env.MONGODB_CONNECT_URL);
+mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/mymongodb?retryWrites=true&w=majority");
 
 // Middleware для обработки JSON
 app.use(express.json());
