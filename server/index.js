@@ -16,13 +16,13 @@ const EmployeeModel = require('./models/employee')
 // }
 
 const app = express();
-app.use(express.json());
+
 app.use(cors());
 // app.use(cors(corsOptions));
 
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
-app.post('/employees', async (req, res) => {
+app.post('/employees', async (req, res, next) => {
     try {
       const employees = await EmployeeModel.find(); // Получаем всех сотрудников из коллекции
       res.json(employees); // Отправляем данные обратно на клиентскую сторону
@@ -32,12 +32,12 @@ app.post('/employees', async (req, res) => {
     }
   });
 
-  app.get('/', (req, res) => {
+  app.get('/', (req, resm, next) => {
     res.send("Hello World");
 })
 
 
-  app.post('/login', (req, res) => {
+  app.post('/login', (req, res, next) => {
     const { email, password, lastLogin } = req.body;
     EmployeeModel.findOneAndUpdate(
         { email: email },
@@ -63,7 +63,7 @@ app.post('/employees', async (req, res) => {
 });
 
 
-app.post('/register', (req, res) => {
+app.post('/register, next', (req, res) => {
     const { email, login } = req.body;
 
     // Проверяем, существует ли пользователь с таким email
