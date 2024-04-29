@@ -9,21 +9,21 @@ const app = express();
 app.use(cors());
 
 // Подключение к базе данных MongoDB
-mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb");
+// mongoose.connect("mongodb+srv://treidernovezok:nR7SlO4BPRxg0qxa@mymongodb.vshttet.mongodb.net/?retryWrites=true&w=majority&appName=mymongodb");
 
 // Middleware для обработки JSON
 app.use(express.json());
 
 // Роут для получения всех сотрудников
-app.post('/employees', async (req, res) => {
-    try {
-      const employees = await EmployeeModel.find(); 
-      res.json(employees); 
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Server error' });
-    }
-});
+// app.post('/employees', async (req, res) => {
+//     try {
+//       const employees = await EmployeeModel.find(); 
+//       res.json(employees); 
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ error: 'Server error' });
+//     }
+// });
 
 // Роут для проверки соединения
 app.get('/', (req, res) => {
@@ -33,18 +33,7 @@ app.get('/', (req, res) => {
 // Роут для входа пользователя
 app.post('/login', (req, res) => {
     const { email, password, lastLogin } = req.body;
-    EmployeeModel.findOne({email: email})
-    .then(user =>{
-        if(user)
-        {
-            res.status(200).json({message: "there is email"})
-        }
-       else {
-        res.status(400).json({message: "there isn't email"})
-       }
-    }
-    )
-
+            res.status(200).json({message: "there is email", email, password, lastLogin})
 });
 
 // Роут для регистрации пользователя
