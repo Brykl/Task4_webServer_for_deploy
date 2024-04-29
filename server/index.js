@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors());
 // app.use(cors(corsOptions));
 
-mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/');
+mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 app.post('/employees', async (req, res) => {
     try {
