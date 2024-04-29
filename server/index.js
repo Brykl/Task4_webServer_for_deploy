@@ -1,32 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const EmployeeModel = require('./models/employee')
-const PORT = process.env.PORT || 3000
+const EmployeeModel = require('./models/employee');
 
 const app = express();
-app.use(express.json());
-app.use(cors());
-app.options('*', cors())
-const corsOptions = {
-    origin: 'https://task4-web-server-for-deploy-client.vercel.app/', // Ваш излюбленный сайт
-    optionsSuccessStatus: 200, // Всегда ожидаем статус 200
-  };
-// app.use(cors(corsOptions));
 
+// Middleware для обработки CORS
+app.use(cors());
+
+// Подключение к базе данных MongoDB
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
+// Middleware для обработки JSON
+app.use(express.json());
 
-
-  app.get('/', (req, res) => {
-    res.send("Hello World");
-})
-
-app.PORT(3001, () => {
-    console.log(`server is running on ${PORT}`);
-});
-
-
+// Роут для получения всех сотрудников
 app.post('/employees', async (req, res) => {
     try {
       const employees = await EmployeeModel.find(); 
@@ -35,9 +23,15 @@ app.post('/employees', async (req, res) => {
       console.error(err);
       res.status(500).json({ error: 'Server error' });
     }
-  });
+});
 
-  app.post('/login', (req, res) => {
+// Роут для проверки соединения
+app.get('/', (req, res) => {
+    res.send("Hello World");
+});
+
+// Роут для входа пользователя
+app.post('/login', (req, res) => {
     const { email, password, lastLogin } = req.body;
     EmployeeModel.findOneAndUpdate(
         { email: email },
@@ -53,7 +47,6 @@ app.post('/employees', async (req, res) => {
             }
         } else {
             res.status(400).json({ success: false, message: 'invalid password or email address' });
-            // res.status(400).json({ success: false, message: "No record exists" });
         }
     })
     .catch(error => {
@@ -62,7 +55,7 @@ app.post('/employees', async (req, res) => {
     });
 });
 
-
+// Роут для регистрации пользователя
 app.post('/register', (req, res) => {
     const { email, login } = req.body;
 
@@ -93,9 +86,11 @@ app.post('/register', (req, res) => {
         console.error("Ошибка при поиске пользователя по email:", err);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     });
+});
 
-
-        
+// Запуск сервера на порту 3001
+app.listen(3001, () => {
+    console.log('server is running on 3001');
 });
 
 
