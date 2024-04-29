@@ -33,59 +33,36 @@ app.get('/', (req, res) => {
 // Роут для входа пользователя
 app.post('/login', (req, res) => {
     const { email, password, lastLogin } = req.body;
-    EmployeeModel.findOneAndUpdate(
-        { email: email },
-        { $set: { dateJoined: lastLogin } }, // Обновляем поле dateJoined с последним временем входа
-        { new: true } // Устанавливаем new: true, чтобы получить обновленный документ
-    )
-    .then(updatedUser => {
-        if (updatedUser) {
-            if (updatedUser.password === password && updatedUser.userStaus === 'Availble') {
-                res.status(200).json({ success: true, user: updatedUser});
-            } else {
-                res.status(400).json({ success: false, message: 'Incorrect password' });
-            }
-        } else {
-            res.status(400).json({ success: false, message: 'invalid password or email address' });
+    EmployeeModel.findOne({email: email})
+    .then(user =>{
+        if(user)
+        {
+            res.status(200).json({message: "there is email"})
         }
-    })
-    .catch(error => {
-        console.error('Error updating user:', error);
-        res.status(500).json({ success: false, message: "Server error" });
-    });
+       else {
+        res.status(400).json({message: "there isn't email"})
+       }
+    }
+    )
+
 });
 
 // Роут для регистрации пользователя
 app.post('/register', (req, res) => {
     const { email, login, password } = req.body;
-
-    // Проверяем, существует ли пользователь с таким email
-    EmployeeModel.findOne({ email: email })
-    .then(existingUserByEmail => {
-        EmployeeModel.findOne({ login: login })
-            .then(existingUserByLogin => {
-                if (existingUserByEmail) {
-                    // Пользователь с таким email уже существует
-                    res.status(400).json({ success: false, message: 'Email already exists' });
-                } else if (existingUserByLogin) {
-                    // Пользователь с таким логином уже существует
-                    res.status(400).json({ success: false, message: 'Login already exists' });
-                } else {
-                    EmployeeModel.create(req.body);
-                    res.status(200).json({ success: true, message: 'User created successfully' });
-                }
-            })
-            .catch(err => {
-                // Обработка ошибок запроса к базе данных для поиска по логину
-                console.error("Ошибка при поиске пользователя по логину:", err);
-                res.status(500).json({ success: false, message: 'Internal Server Error' });
-            });
+    EmployeeModel.findOne({email: email})
+    .then(user =>{
+        if(!user)
+        {
+            res.status(200).json({ success: true, message: 'User created successfully' });
+            EmployeeModel.create(req.body);
+        }
+       else {
+        res.status(400).json({message: "there is email"})
+       }
     })
-    .catch(err => {
-        // Обработка ошибок запроса к базе данных для поиска по email
-        console.error("Ошибка при поиске пользователя по email:", err);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-    });
+
+
 });
 
 // Запуск сервера на порту 3001
