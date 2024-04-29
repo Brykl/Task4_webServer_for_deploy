@@ -57,7 +57,7 @@ app.post('/login', (req, res) => {
 
 // Роут для регистрации пользователя
 app.post('/register', (req, res) => {
-    const { email, login } = req.body;
+    const { email, login, password } = req.body;
 
     // Проверяем, существует ли пользователь с таким email
     EmployeeModel.findOne({ email: email })
