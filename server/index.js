@@ -3,13 +3,22 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const EmployeeModel = require('./models/employee')
 
-const corsOptions = {
-    origin: '*',
-  };
+// const allowCors = fn => async (req, res) => {
+//     res.setHeader('Access-Control-Allow-Credentials', true)
+//     res.setHeader('Access-Control-Allow-Origin', '*')
+//     // another common pattern
+//     // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+//     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+//     res.setHeader(
+//       'Access-Control-Allow-Headers',
+//       'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+//     )
+// }
 
 const app = express();
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
+// app.use(cors(corsOptions));
 
 mongoose.connect('mongodb+srv://treidernovezok:oxeCWhiIMuLJOWU2@cluster0.unzd9zf.mongodb.net/');
 
